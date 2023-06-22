@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { callAPI, callAPIGas, fetchCount } from "./counterAPI";
+import { callAPI, callAPIGas, callOctopusConsumptionAPI } from "./counterAPI";
 import { async } from "q";
 
 const initialState = {
@@ -24,24 +24,24 @@ const initialState = {
 export const incrementAsync = createAsyncThunk(
   "counter/fetchCount",
   async (amount) => {
-    const response = await fetchCount(amount);
+    const response = [];
     // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
 );
 
-export const callElectricMeter = createAsyncThunk(
+export const callMyElectricMeter = createAsyncThunk(
   "octopus/getElectricConsumption",
-  async () => {
-    const result = await callAPI();
+  async ({ URL, METERPOINT, SERIAL }) => {
+    const result = await callOctopusConsumptionAPI(URL, METERPOINT, SERIAL);
     return result.data.results;
   }
 );
 
-export const callGasMeter = createAsyncThunk(
+export const callMyGasMeter = createAsyncThunk(
   "octopus/getGasConsumption",
-  async () => {
-    const result = await callAPIGas();
+  async ({ URL, METERPOINT, SERIAL }) => {
+    const result = await callOctopusConsumptionAPI(URL, METERPOINT, SERIAL);
     return result.data.results;
   }
 );
@@ -77,10 +77,10 @@ export const octopusSlice = createSlice({
         state.status = "idle";
         state.value += action.payload;
       })
-      .addCase(callElectricMeter.fulfilled, (state, action) => {
+      .addCase(callMyElectricMeter.fulfilled, (state, action) => {
         state.myElectricData = action.payload;
       })
-      .addCase(callGasMeter.fulfilled, (state, action) => {
+      .addCase(callMyGasMeter.fulfilled, (state, action) => {
         state.myGasData = action.payload;
       });
   },
