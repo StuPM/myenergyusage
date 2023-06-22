@@ -2,10 +2,13 @@ import React from "react";
 import { Bar } from "react-chartjs-2";
 import { useSelector } from "react-redux";
 
+import "chartjs-adapter-date-fns";
+
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  TimeScale,
   BarElement,
   Title,
   Tooltip,
@@ -16,6 +19,7 @@ import { element } from "prop-types";
 ChartJS.register(
   CategoryScale,
   LinearScale,
+  TimeScale,
   BarElement,
   Title,
   Tooltip,
@@ -30,8 +34,8 @@ const Chart = ({ selectorToUse, electricOrGas }) => {
 
   const data = {
     labels: electricData.map((element) => {
-      console.log(Date.parse(element.interval_start));
-
+      //   console.log(element.interval_start.substring(0, 16));
+      return Date.parse(element.interval_start);
       return element.interval_start;
     }),
     datasets: [
@@ -61,19 +65,50 @@ const Chart = ({ selectorToUse, electricOrGas }) => {
         display: true,
         text: "Chart.js Bar Chart",
       },
+      tooltip: {
+        callbacks: {
+          title: (context) => {
+            const currentValue = new Date(context[0].parsed.x);
+            const formattedDate = currentValue.toLocaleString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+            return formattedDate;
+          },
+        },
+      },
     },
     scales: {
+      x: {
+        position: "bottom",
+        type: "time",
+        ticks: {
+          major: {
+            enabled: true,
+          },
+          font: (context) => {
+            const bolded = context.tick && context.tick.major ? "bold" : "";
+            return { weight: bolded };
+          },
+        },
+        title: {
+          display: true,
+          text: "Date and Time",
+          beginAtZero: true,
+          font: {
+            weight: "bold",
+          },
+        },
+      },
       y: {
+        position: "right",
+        min: 0,
         title: {
           display: true,
           text: electricOrGas ? "Usage KwH" : "Usage m3",
-        },
-      },
-      x: {
-        title: {
-          display: true,
-          text: "Your Title",
-          beginAtZero: true,
+          font: {
+            weight: "bold",
+          },
         },
       },
     },
