@@ -1,9 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { callAPI, fetchCount } from "./counterAPI";
+import { callAPI, callAPIGas, fetchCount } from "./counterAPI";
+import { async } from "q";
 
 const initialState = {
   value: 0,
   status: "idle",
+  myElectricData: [],
+  myGasData: [],
+  getStarted: [
+    { label: "APIKEY", text: "API Key", type: "password" },
+    { label: "ELECTRICMPAN", text: "Electric MPAN", type: "number" },
+    { label: "ELECTRICSERIAL", text: "Electric Serial", type: "number" },
+    { label: "GASMPRN", text: "Gas MPRN", type: "number" },
+    { label: "GASSERIAL", text: "Gas Serial", type: "number" },
+  ],
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -24,6 +34,14 @@ export const callElectricMeter = createAsyncThunk(
   "octopus/getElectricConsumption",
   async () => {
     const result = await callAPI();
+    return result.data.results;
+  }
+);
+
+export const callGasMeter = createAsyncThunk(
+  "octopus/getGasConsumption",
+  async () => {
+    const result = await callAPIGas();
     return result.data.results;
   }
 );
@@ -60,8 +78,10 @@ export const octopusSlice = createSlice({
         state.value += action.payload;
       })
       .addCase(callElectricMeter.fulfilled, (state, action) => {
-        console.log(action.payload);
-        state.electricData = action.payload;
+        state.myElectricData = action.payload;
+      })
+      .addCase(callGasMeter.fulfilled, (state, action) => {
+        state.myGasData = action.payload;
       });
   },
 });
@@ -72,6 +92,9 @@ export const { increment, decrement, incrementByAmount } = octopusSlice.actions;
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const selectCount = (state) => state.octopus.value;
+export const selectGetStarted = (state) => state.octopus.getStarted;
+export const selectMyElectricData = (state) => state.octopus.myElectricData;
+export const selectMyGasData = (state) => state.octopus.myGasData;
 
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.

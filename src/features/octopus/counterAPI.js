@@ -22,3 +22,19 @@ export function callAPI() {
     );
   });
 }
+
+export function callAPIGas() {
+  return new Promise((resolve) => {
+    resolve(
+      axios.get(
+        "https://api.octopus.energy/v1/gas-meter-points/2996767710/meters/G4P03698001700/consumption/",
+        {
+          headers: {
+            Authorization: "Basic " + process.env.REACT_APP_APIKEY,
+          },
+        }
+      ),
+      500
+    );
+  });
+}
