@@ -22,39 +22,16 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: "top",
-    },
-    title: {
-      display: true,
-      text: "Chart.js Bar Chart",
-    },
-  },
-  scales: {
-    y: {
-      title: {
-        display: true,
-        text: "Your Title",
-      },
-    },
-    x: {
-      title: {
-        display: true,
-        text: "Your Title",
-      },
-    },
-  },
-};
+// export
 
 // export
-const Chart = ({ selectorToUse }) => {
+const Chart = ({ selectorToUse, electricOrGas }) => {
   const electricData = useSelector(selectorToUse);
 
   const data = {
     labels: electricData.map((element) => {
+      console.log(Date.parse(element.interval_start));
+
       return element.interval_start;
     }),
     datasets: [
@@ -74,11 +51,36 @@ const Chart = ({ selectorToUse }) => {
     ],
   };
 
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Chart.js Bar Chart",
+      },
+    },
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: electricOrGas ? "Usage KwH" : "Usage m3",
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: "Your Title",
+          beginAtZero: true,
+        },
+      },
+    },
+  };
+
   return (
     <>
-      {/* {electricData.map((element) => (
-        <p>{element.interval_start}</p>
-      ))} */}
       <Bar data={data} options={options} />
     </>
   );

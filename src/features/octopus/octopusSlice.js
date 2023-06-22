@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { callAPI, callAPIGas, callOctopusConsumptionAPI } from "./counterAPI";
-import { async } from "q";
+import { callOctopusConsumptionAPI } from "./counterAPI";
 
 const initialState = {
   value: 0,

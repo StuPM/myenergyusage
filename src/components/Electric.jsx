@@ -19,8 +19,8 @@ const Electric = () => {
           </p>
         </div>
         <div className="mt-12">
-          <Chart selectorToUse={selectMyElectricData} />
-          <Chart selectorToUse={selectMyGasData} />
+          <Chart selectorToUse={selectMyElectricData} electricOrGas={true} />
+          <Chart selectorToUse={selectMyGasData} electricOrGas={false} />
         </div>
       </div>
     </section>
