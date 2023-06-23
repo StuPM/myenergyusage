@@ -6,6 +6,8 @@ const initialState = {
   status: "idle",
   myElectricData: [],
   myGasData: [],
+  yourElectricData: [],
+  yourGasData: [],
   getStarted: [
     { label: "APIKEY", text: "API Key", type: "password" },
     { label: "ELECTRICMPAN", text: "Electric MPAN", type: "number" },
@@ -31,16 +33,26 @@ export const incrementAsync = createAsyncThunk(
 
 export const callMyElectricMeter = createAsyncThunk(
   "octopus/getElectricConsumption",
-  async ({ URL, METERPOINT, SERIAL }) => {
-    const result = await callOctopusConsumptionAPI(URL, METERPOINT, SERIAL);
+  async ({ URL, METERPOINT, SERIAL, APIKEY }) => {
+    const result = await callOctopusConsumptionAPI(
+      URL,
+      METERPOINT,
+      SERIAL,
+      APIKEY
+    );
     return result.data.results;
   }
 );
 
 export const callMyGasMeter = createAsyncThunk(
   "octopus/getGasConsumption",
-  async ({ URL, METERPOINT, SERIAL }) => {
-    const result = await callOctopusConsumptionAPI(URL, METERPOINT, SERIAL);
+  async ({ URL, METERPOINT, SERIAL, APIKEY }) => {
+    const result = await callOctopusConsumptionAPI(
+      URL,
+      METERPOINT,
+      SERIAL,
+      APIKEY
+    );
     return result.data.results;
   }
 );

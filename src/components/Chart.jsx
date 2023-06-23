@@ -14,7 +14,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { element } from "prop-types";
 
 ChartJS.register(
   CategoryScale,
@@ -26,17 +25,21 @@ ChartJS.register(
   Legend
 );
 
-// export
-
-// export
 const Chart = ({ selectorToUse, electricOrGas }) => {
+  /*
+        Electric = true
+        Title - Electricity - My usage / Electricitry - Our usage compared
+        Subtitle - 
+        Icon - Me, Amy, 2 cats 
+
+    */
+
   const electricData = useSelector(selectorToUse);
 
   const data = {
     labels: electricData.map((element) => {
       //   console.log(element.interval_start.substring(0, 16));
       return Date.parse(element.interval_start);
-      return element.interval_start;
     }),
     datasets: [
       {
@@ -56,14 +59,17 @@ const Chart = ({ selectorToUse, electricOrGas }) => {
   };
 
   const options = {
-    responsive: true,
+    // responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
       },
       title: {
         display: true,
-        text: "Chart.js Bar Chart",
+        text: electricOrGas
+          ? "Electricity usage in KwH, from to."
+          : "Gas usage in m³, from to.",
       },
       tooltip: {
         callbacks: {
@@ -105,7 +111,7 @@ const Chart = ({ selectorToUse, electricOrGas }) => {
         min: 0,
         title: {
           display: true,
-          text: electricOrGas ? "Usage KwH" : "Usage m3",
+          text: electricOrGas ? "Usage KwH" : "Usage m³",
           font: {
             weight: "bold",
           },

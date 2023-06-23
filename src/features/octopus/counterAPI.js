@@ -1,13 +1,13 @@
 import axios from "axios";
 
-export function callOctopusConsumptionAPI(URL, METERPOINT, SERIAL) {
+export function callOctopusConsumptionAPI(URL, METERPOINT, SERIAL, APIKEY) {
   return new Promise((resolve) => {
     resolve(
       axios.get(
         `https://api.octopus.energy/v1/${URL}/${METERPOINT}/meters/${SERIAL}/consumption/`,
         {
           headers: {
-            Authorization: "Basic " + process.env.REACT_APP_APIKEY,
+            Authorization: "Basic " + APIKEY,
           },
         }
       ),

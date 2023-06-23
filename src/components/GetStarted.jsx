@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectGetStarted } from "../features/octopus/octopusSlice";
 
 const GetStarted = () => {
   const getStartedFormComponents = useSelector(selectGetStarted);
+
+  const [yourAPIDetails, setYourAPIDetails] = useState([]);
+
+  const setDetailsOnInput = (e) => {
+    setYourAPIDetails({ ...yourAPIDetails, [e.target.id]: e.target.value });
+    console.log(yourAPIDetails);
+  };
 
   return (
     <>
@@ -11,16 +18,27 @@ const GetStarted = () => {
         <div className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
           <div className="mx-auto max-w-lg text-center">
             <h1 className="text-2xl font-bold sm:text-3xl">
-              Get started today!
+              Want to compare your usage to mine?
             </h1>
 
             <p className="mt-4 text-gray-500">
-              Enter your API credientals, this can be found at ... Then click
-              save!
+              Enter your API credientals and meter details below, this can be
+              found at{" "}
+              <a href="https://octopus.energy/dashboard/new/accounts/personal-details/api-access">
+                here
+              </a>
+              .
+            </p>
+            <p className="mt-4 text-gray-500">
+              Otherwise, keep scrolling just to see my electric and gas usage.
             </p>
           </div>
 
-          <form action="" className="mx-auto mb-0 mt-8 max-w-md space-y-4">
+          <form
+            action=""
+            className="mx-auto mb-0 mt-8 max-w-md space-y-4"
+            onInput={setDetailsOnInput}
+          >
             {getStartedFormComponents.map((element) => (
               <div key={element.label}>
                 <label htmlFor={element.label} className="sr-only">
@@ -60,22 +78,6 @@ const GetStarted = () => {
                 </div>
               </div>
             ))}
-
-            <div className="flex items-center justify-between">
-              <p className="text-sm text-gray-500">
-                No account?
-                <a className="underline" href="">
-                  Sign up
-                </a>
-              </p>
-
-              <button
-                type="submit"
-                className="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
-              >
-                Sign in
-              </button>
-            </div>
           </form>
         </div>
         <div className="relative h-64 w-full sm:h-96 lg:h-full lg:w-1/2">
