@@ -14,7 +14,10 @@ const GetStarted = () => {
 
   return (
     <>
-      <section className="relative flex flex-wrap lg:h-screen lg:items-center">
+      <section
+        id="GetStarted"
+        className="relative flex flex-wrap lg:h-screen lg:items-center"
+      >
         <div className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
           <div className="mx-auto max-w-lg text-center">
             <h1 className="text-2xl font-bold sm:text-3xl">
@@ -22,8 +25,8 @@ const GetStarted = () => {
             </h1>
 
             <p className="mt-4 text-gray-500">
-              Enter your API credientals and meter details below, this can be
-              found at{" "}
+              If you do, enter your API credientals and meter details below,
+              this can be found{" "}
               <a href="https://octopus.energy/dashboard/new/accounts/personal-details/api-access">
                 here
               </a>
