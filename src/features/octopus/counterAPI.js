@@ -13,7 +13,7 @@ export function callOctopusConsumptionAPI(URL, METERPOINT, SERIAL, APIKEY) {
             // period_from: new Date(2023, 5, 28),
             // period_to: new Date(),
             // page_size: 1000,
-            // group_by: "week",
+            // group_by: "day",
           },
         }
       ),
