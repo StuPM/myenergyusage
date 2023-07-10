@@ -1,128 +1,94 @@
-import React from "react";
-import { Bar } from "react-chartjs-2";
+import React, { useEffect, useRef } from "react";
+
+import * as d3 from "d3";
+
 import { useSelector } from "react-redux";
 
-import "chartjs-adapter-date-fns";
-
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  TimeScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  TimeScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
 const Chart = ({ selectorToUse, electricOrGas }) => {
-  /*
-        Electric = true
-        Title - Electricity - My usage / Electricitry - Our usage compared
-        Subtitle - 
-        Icon - Me, Amy, 2 cats 
+  const data = useSelector(selectorToUse);
 
-    */
+  // const data = [
+  //   {
+  //     consumption: 0.031,
+  //     interval_start: "2023-07-10T00:30:00+01:00",
+  //     interval_end: "2023-07-10T01:00:00+01:00",
+  //   },
 
-  const electricData = useSelector(selectorToUse);
+  //   {
+  //     consumption: 0.039,
+  //     interval_start: "2023-07-10T00:00:00+01:00",
+  //     interval_end: "2023-07-10T00:30:00+01:00",
+  //   },
+  // ];
 
-  const data = {
-    labels: electricData.map((element) => {
-      //   console.log(element.interval_start.substring(0, 16));
-      return Date.parse(element.interval_start);
-    }),
-    datasets: [
-      {
-        label: "My data",
-        data: electricData.map((element) => {
-          return element.consumption;
-        }),
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-      },
-      //   },
-      //   {
-      //     label: "Dataset 2",
-      //     data: [2],
-      //     backgroundColor: "rgba(53, 162, 235, 0.5)",
-      //   },
-    ],
-  };
+  // console.log(Math.ceil(d3.max(data.map((d) => d.consumption))));
 
-  const options = {
-    // responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-      title: {
-        display: true,
-        text: electricOrGas
-          ? "Electricity usage in KwH, from to."
-          : "Gas usage in m³, from to.",
-      },
-      tooltip: {
-        callbacks: {
-          title: (context) => {
-            const currentValue = new Date(context[0].parsed.x);
-            const formattedDate = currentValue.toLocaleString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            });
-            return formattedDate;
-          },
-        },
-      },
-    },
-    scales: {
-      x: {
-        position: "bottom",
-        type: "time",
-        ticks: {
-          major: {
-            enabled: true,
-          },
-          font: (context) => {
-            const bolded = context.tick && context.tick.major ? "bold" : "";
-            return { weight: bolded };
-          },
-        },
-        title: {
-          display: true,
-          text: "Date and Time",
-          beginAtZero: true,
-          font: {
-            weight: "bold",
-          },
-        },
-      },
-      y: {
-        position: "right",
-        min: 0,
-        title: {
-          display: true,
-          text: electricOrGas ? "Usage KwH" : "Usage m³",
-          font: {
-            weight: "bold",
-          },
-        },
-      },
-    },
-  };
+  const svgRef = useRef();
+
+  console.log(data);
+
+  useEffect(() => {
+    const w = 1500;
+    const h = 300;
+    const marginTop = 30;
+    const marginRight = 0;
+    const marginBottom = 30;
+    const marginLeft = 40;
+
+    const svg = d3
+      .select(svgRef.current)
+      .attr("width", w)
+      .attr("height", h)
+      .style("overflow", "visible")
+      .attr("viewBox", [0, 0, w, h])
+      .attr("style", "max-width: 100%; height: auto;");
+
+    const xScale = d3
+      .scaleBand()
+      .domain(data.map((val) => val.interval_end))
+      .range([marginLeft, w - marginRight])
+      .padding(0.5);
+
+    const yScale = d3
+      .scaleLinear()
+      .domain([0, d3.max(data.map((d) => d.consumption))])
+      .range([h - marginBottom, marginTop]);
+
+    svg
+      .append("g")
+      .attr("fill", "steelblue")
+      .selectAll()
+      .data(data)
+      .join("rect")
+      .attr("x", (d) => xScale(d.interval_end))
+      .attr("y", (d) => yScale(d.consumption))
+      .attr("height", (d) => yScale(0) - yScale(d.consumption))
+      .attr("width", xScale.bandwidth());
+
+    svg
+      .append("g")
+      .attr("transform", `translate(0,${h - marginBottom})`)
+      .call(d3.axisBottom(xScale).tickSizeOuter(0));
+
+    svg
+      .append("g")
+      .attr("transform", `translate(${marginLeft},0)`)
+      .call(d3.axisLeft(yScale))
+      .call((g) => g.select(".domain").remove())
+      .call((g) =>
+        g
+          .append("text")
+          .attr("x", -marginLeft)
+          .attr("y", 10)
+          .attr("fill", "currentColor")
+          .attr("text-anchor", "start")
+          .text("↑ Frequency (%)")
+      );
+  }, [data]);
 
   return (
     <>
-      <Bar data={data} options={options} />
+      <svg ref={svgRef}></svg>
     </>
   );
 };

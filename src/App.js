@@ -35,10 +35,10 @@ function App() {
 
   return (
     <>
-      <div className="h-screen flex flex-col ">
+      {/* <div className="h-screen flex flex-col ">
         <Navigation />
         <BannerGroup />
-      </div>
+      </div> */}
       <ChartGroup />
     </>
   );
