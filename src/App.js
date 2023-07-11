@@ -6,10 +6,9 @@ import {
   callMyElectricMeter,
   callMyGasMeter,
 } from "./features/octopus/octopusSlice";
+import Navigation from "./components/Navigation";
 
 import ChartGroup from "./components/ChartGroup";
-import Navigation from "./components/Navigation";
-import BannerGroup from "./components/BannerGroup";
 
 function App() {
   const dispatch = useDispatch();
@@ -35,10 +34,7 @@ function App() {
 
   return (
     <>
-      <div className="h-screen flex flex-col ">
-        <Navigation />
-        <BannerGroup />
-      </div>
+      <Navigation />
       <ChartGroup />
     </>
   );

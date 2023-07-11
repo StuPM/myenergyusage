@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { callOctopusConsumptionAPI } from "./counterAPI";
+import { async } from "q";
 
 const initialState = {
   value: 0,
@@ -11,7 +12,7 @@ const initialState = {
   getStarted: [
     { label: "APIKEY", text: "API Key", type: "password" },
     { label: "ELECTRICMPAN", text: "Electric MPAN", type: "number" },
-    { label: "ELECTRICSERIAL", text: "Electric Serial", type: "number" },
+    { label: "ELECTRICSERIAL", text: "Electric Serial", type: "string" },
     { label: "GASMPRN", text: "Gas MPRN", type: "number" },
     { label: "GASSERIAL", text: "Gas Serial", type: "number" },
   ],
@@ -33,12 +34,14 @@ export const incrementAsync = createAsyncThunk(
 
 export const callMyElectricMeter = createAsyncThunk(
   "octopus/getElectricConsumption",
-  async ({ URL, METERPOINT, SERIAL, APIKEY }) => {
+  async ({ URL, METERPOINT, SERIAL, APIKEY, FROM, TO }) => {
     const result = await callOctopusConsumptionAPI(
       URL,
       METERPOINT,
       SERIAL,
-      APIKEY
+      APIKEY,
+      FROM,
+      TO
     );
     return result.data.results;
   }
@@ -46,12 +49,14 @@ export const callMyElectricMeter = createAsyncThunk(
 
 export const callMyGasMeter = createAsyncThunk(
   "octopus/getGasConsumption",
-  async ({ URL, METERPOINT, SERIAL, APIKEY }) => {
+  async ({ URL, METERPOINT, SERIAL, APIKEY, FROM, TO }) => {
     const result = await callOctopusConsumptionAPI(
       URL,
       METERPOINT,
       SERIAL,
-      APIKEY
+      APIKEY,
+      FROM,
+      TO
     );
     return result.data.results;
   }
