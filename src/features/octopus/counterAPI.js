@@ -4,9 +4,9 @@ export function callOctopusConsumptionAPI(
   URL,
   METERPOINT,
   SERIAL,
-  APIKEY
-  // FROM = new Date(new Date() - 259200000),
-  // TO = new Date()
+  APIKEY,
+  FROM,
+  TO
 ) {
   return new Promise((resolve) => {
     resolve(
@@ -17,8 +17,8 @@ export function callOctopusConsumptionAPI(
             Authorization: "Basic " + APIKEY,
           },
           params: {
-            // period_from: FROM,
-            // period_to: TO,
+            period_from: FROM,
+            period_to: TO,
             // page_size: 1000,
             // group_by: "day",
           },

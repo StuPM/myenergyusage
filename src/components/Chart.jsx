@@ -74,10 +74,6 @@ const Chart = () => {
       legend: {
         position: "top",
       },
-      title: {
-        display: true,
-        text: "from to.",
-      },
       tooltip: {
         callbacks: {
           title: (context) => {

@@ -1,25 +1,39 @@
 import React from "react";
+import me from "../assets/me.jpg";
+import misty from "../assets/misty.jpg";
+import molly from "../assets/molly.jpg";
 
 const About = () => {
   return (
     <>
-      <section className="bg-gray-900 text-white flex flex-col">
-        <h1 className="text-2xl font-bold sm:text-3xl">
-          Want to compare your usage to mine?
-        </h1>
-        <p>
-          See whos using more and identify where you might be able to cut back
-          or change things.
-        </p>
-        <p>
-          If your with Octopus Energy, then enter your account details from the
-          webpage here in the next section and your data will automatilly
-          appear.
-        </p>
-        <p className="">
-          If your not with Octopus Energy, then no problem, you can see how much
-          my family uses in the graphs below.
-        </p>
+      <section className="flex flex-col">
+        <div className="max-w-2xl mx-auto text-center">
+          <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
+            My familys usage
+          </h3>
+          <p className="mt-3">
+            How do our families compare? With 2 adults working from home 3 days
+            a week and 2 cats running around 24/7, do you use more or less than
+            us?
+          </p>
+          <div className="flex justify-center">
+            <img
+              className="w-24 h-24 rounded-full"
+              src={me}
+              alt="Rounded avatar"
+            />
+            <img
+              className="w-24 h-24 rounded-full"
+              src={misty}
+              alt="Rounded avatar"
+            />
+            <img
+              className="w-24 h-24 rounded-full"
+              src={molly}
+              alt="Rounded avatar"
+            />
+          </div>
+        </div>
       </section>
     </>
   );
