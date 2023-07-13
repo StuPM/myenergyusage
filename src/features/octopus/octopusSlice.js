@@ -1,14 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { callOctopusConsumptionAPI } from "./counterAPI";
-import { async } from "q";
 
 const initialState = {
   value: 0,
   status: "idle",
   myElectricData: [],
   myGasData: [],
-  yourElectricData: [],
-  yourGasData: [],
   getStarted: [
     { label: "APIKEY", text: "API Key", type: "password" },
     { label: "ELECTRICMPAN", text: "Electric MPAN", type: "number" },

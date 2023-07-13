@@ -14,6 +14,10 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import {
+  selectMyElectricData,
+  selectMyGasData,
+} from "../features/octopus/octopusSlice";
 
 ChartJS.register(
   CategoryScale,
@@ -25,7 +29,7 @@ ChartJS.register(
   Legend
 );
 
-const Chart = ({ selectorToUse, electricOrGas }) => {
+const Chart = () => {
   /*
         Electric = true
         Title - Electricity - My usage / Electricitry - Our usage compared
@@ -34,7 +38,8 @@ const Chart = ({ selectorToUse, electricOrGas }) => {
 
     */
 
-  const electricData = useSelector(selectorToUse);
+  const electricData = useSelector(selectMyElectricData);
+  const gasData = useSelector(selectMyGasData);
 
   const data = {
     labels: electricData.map((element) => {
@@ -43,18 +48,22 @@ const Chart = ({ selectorToUse, electricOrGas }) => {
     }),
     datasets: [
       {
-        label: "My data",
+        label: "Electric",
         data: electricData.map((element) => {
           return element.consumption;
         }),
         backgroundColor: "rgba(255, 99, 132, 0.5)",
+        yAxisID: "y",
       },
       //   },
-      //   {
-      //     label: "Dataset 2",
-      //     data: [2],
-      //     backgroundColor: "rgba(53, 162, 235, 0.5)",
-      //   },
+      {
+        label: "Gas",
+        data: gasData.map((element) => {
+          return element.consumption;
+        }),
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        yAxisID: "gas",
+      },
     ],
   };
 
@@ -67,9 +76,7 @@ const Chart = ({ selectorToUse, electricOrGas }) => {
       },
       title: {
         display: true,
-        text: electricOrGas
-          ? "Electricity usage in KwH, from to."
-          : "Gas usage in m³, from to.",
+        text: "from to.",
       },
       tooltip: {
         callbacks: {
@@ -109,12 +116,26 @@ const Chart = ({ selectorToUse, electricOrGas }) => {
       y: {
         position: "right",
         min: 0,
+        beginAtZero: true,
+
         title: {
           display: true,
-          text: electricOrGas ? "Usage KwH" : "Usage m³",
+          text: "Usage KwH",
           font: {
             weight: "bold",
           },
+        },
+      },
+      gas: {
+        title: {
+          display: true,
+          text: "Usage m³",
+          font: {
+            weight: "bold",
+          },
+        },
+        grid: {
+          drawOnChartArea: false,
         },
       },
     },

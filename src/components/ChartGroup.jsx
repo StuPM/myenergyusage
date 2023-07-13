@@ -1,9 +1,5 @@
 import React from "react";
 import Chart from "./Chart";
-import {
-  selectMyElectricData,
-  selectMyGasData,
-} from "../features/octopus/octopusSlice";
 import "../styles/Electric.css";
 
 import me from "../assets/me.jpg";
@@ -18,7 +14,7 @@ const ChartGroup = () => {
     <>
       <section id="MyUsage" className="py-14 border-black border-t-2">
         <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
-          <div className="max-w-2xl mx-auto text-center">
+          {/* <div className="max-w-2xl mx-auto text-center">
             <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">
               My familys usage
             </h3>
@@ -44,14 +40,13 @@ const ChartGroup = () => {
                 alt="Rounded avatar"
               />
             </div>
-          </div>
+          </div> */}
           <div className="mt-12 chartContainer">
-            <h4 className="text-2xl font-semibold"> 💡 Electricity 💡</h4>
-            <Chart selectorToUse={selectMyElectricData} electricOrGas={true} />
-          </div>
-          <div className="mt-12 chartContainer">
-            <h4 className="text-2xl font-semibold">🔥 Gas 🔥</h4>
-            <Chart selectorToUse={selectMyGasData} electricOrGas={false} />
+            <h4 className="text-2xl font-semibold">
+              {" "}
+              💡 Electricity and Gas 🔥
+            </h4>
+            <Chart />
           </div>
         </div>
       </section>

@@ -7,7 +7,7 @@ import {
   callMyGasMeter,
 } from "./features/octopus/octopusSlice";
 import Navigation from "./components/Navigation";
-
+import About from "./components/About";
 import ChartGroup from "./components/ChartGroup";
 
 function App() {
@@ -35,6 +35,7 @@ function App() {
   return (
     <>
       <Navigation />
+      <About />
       <ChartGroup />
     </>
   );
