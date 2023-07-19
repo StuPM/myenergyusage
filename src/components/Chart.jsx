@@ -59,7 +59,7 @@ const Chart = () => {
   };
 
   const options = {
-    // responsive: true,
+    responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
@@ -129,9 +129,9 @@ const Chart = () => {
   };
 
   return (
-    <>
+    <div className="h-full w-full">
       <Bar data={data} options={options} />
-    </>
+    </div>
   );
 };
 

@@ -34,13 +34,23 @@ const DateSelection = ({ defaultFrom, defaultTo }) => {
           <label htmlFor="dateFrom" className="block font-medium text-gray-700">
             Start:
           </label>
-          <input type="date" name="dateFrom" id="" defaultValue={defaultFrom} />
+          <input
+            type="date"
+            name="dateFrom"
+            id="dateFrom"
+            defaultValue={defaultFrom}
+          />
         </div>
         <div className="ml-2">
           <label htmlFor="dateTo" className="block font-medium text-gray-700">
             End:
           </label>
-          <input type="date" name="dateTo" id="" defaultValue={defaultTo} />
+          <input
+            type="date"
+            name="dateTo"
+            id="dateTo"
+            defaultValue={defaultTo}
+          />
         </div>
       </div>
       <button
