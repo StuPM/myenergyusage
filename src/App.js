@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import "./App.css";
 import {
   callMyElectricMeter,
   callMyGasMeter,
   selectFromDate,
   selectToDate,
 } from "./features/octopus/octopusSlice";
-import Navigation from "./components/Navigation";
+
 import About from "./components/About";
 import ChartGroup from "./components/ChartGroup";
 
@@ -42,7 +41,6 @@ function App() {
 
   return (
     <>
-      <Navigation />
       <About />
       <ChartGroup />
     </>

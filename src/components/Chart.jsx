@@ -30,14 +30,6 @@ ChartJS.register(
 );
 
 const Chart = () => {
-  /*
-        Electric = true
-        Title - Electricity - My usage / Electricitry - Our usage compared
-        Subtitle - 
-        Icon - Me, Amy, 2 cats 
-
-    */
-
   const electricData = useSelector(selectMyElectricData);
   const gasData = useSelector(selectMyGasData);
 
@@ -55,7 +47,6 @@ const Chart = () => {
         backgroundColor: "rgba(255, 99, 132, 0.5)",
         yAxisID: "y",
       },
-      //   },
       {
         label: "Gas",
         data: gasData.map((element) => {

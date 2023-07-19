@@ -6,7 +6,6 @@ import DateSelection from "./DateSelection";
 
 import { selectFromDate, selectToDate } from "../features/octopus/octopusSlice";
 import { useSelector } from "react-redux";
-import ChartTypes from "./ChartTypes";
 
 const ChartGroup = () => {
   const defaultFrom = useSelector(selectFromDate);
@@ -14,16 +13,13 @@ const ChartGroup = () => {
 
   return (
     <>
-      <section id="MyUsage" className="py-14 border-black border-t-2">
-        <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
-          <div className="chartContainer flex flex-col items-center ">
-            <h4 className="text-2xl font-semibold">
-              💡 Electricity and Gas 🔥
-            </h4>
-            <DateSelection defaultFrom={defaultFrom} defaultTo={defaultTo} />
-            <ChartTypes />
-            <Chart />
-          </div>
+      <section className="max-w-full max-h-screen my-4 ">
+        <div className="chartContainer flex flex-col items-center ">
+          <h2 className="text-3xl font-extrabold mb-4">
+            💡 Electricity and Gas 🔥
+          </h2>
+          <DateSelection defaultFrom={defaultFrom} defaultTo={defaultTo} />
+          <Chart />
         </div>
       </section>
     </>
