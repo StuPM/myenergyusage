@@ -43,7 +43,9 @@ const Chart = () => {
 
     console.log(e.target.id);
 
-    if (e.target.id === "week") {
+    if (e.target.id === "month") {
+      setElectricDataGrouped(monthlyData());
+    } else if (e.target.id === "week") {
       setElectricDataGrouped(weeklyData());
     } else if (e.target.id === "day") {
       setElectricDataGrouped(dailyData());
@@ -121,6 +123,51 @@ const Chart = () => {
     return electricWeek;
   };
 
+  const monthlyData = () => {
+    const electricMonth = [];
+    const month = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    electricData.map((element) => {
+      const currentDate = new Date(
+        new Date(element.interval_start).getFullYear(),
+        new Date(element.interval_start).getMonth(),
+        1
+      );
+
+      const index = electricMonth.findIndex(
+        (e) => e.interval_start.valueOf() === currentDate.valueOf()
+      );
+
+      if (index === -1) {
+        electricMonth.push({
+          interval_start: currentDate,
+          consumption: element.consumption,
+        });
+      } else {
+        const newConsumption =
+          electricMonth[index].consumption + element.consumption;
+        electricMonth[index].consumption = newConsumption;
+      }
+    });
+
+    console.log(electricMonth);
+
+    return electricMonth;
+  };
+
   useEffect(() => {
     setElectricDataGrouped(electricData);
   }, [electricData]);
@@ -178,6 +225,9 @@ const Chart = () => {
         time: {
           unit: timeFrame,
           isoWeekday: true,
+          displayFormats: {
+            month: "MMMM yyyy",
+          },
         },
 
         ticks: {
