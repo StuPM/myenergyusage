@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 
 import "chartjs-adapter-date-fns";
 
+import { dailyData, weeklyData, monthlyData } from "../utils";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -35,6 +37,8 @@ const Chart = () => {
   const gasData = useSelector(selectMyGasData);
 
   const [electricDataGrouped, setElectricDataGrouped] = useState(electricData);
+  const [gasDataGrouped, setGasDataGrouped] = useState(gasData);
+
   const [timeFrame, setTimeFrame] = useState("hour");
 
   const clickTimeFrame = (e) => {
@@ -44,137 +48,27 @@ const Chart = () => {
     console.log(e.target.id);
 
     if (e.target.id === "month") {
-      setElectricDataGrouped(monthlyData());
+      setElectricDataGrouped(monthlyData(electricData));
+      setGasDataGrouped(monthlyData(gasData));
     } else if (e.target.id === "week") {
-      setElectricDataGrouped(weeklyData());
+      setElectricDataGrouped(weeklyData(electricData));
+      setGasDataGrouped(weeklyData(gasData));
     } else if (e.target.id === "day") {
-      setElectricDataGrouped(dailyData());
+      setElectricDataGrouped(dailyData(electricData));
+      setGasDataGrouped(dailyData(gasData));
     } else if (e.target.id === "hour") {
       setElectricDataGrouped(electricData);
+      setGasDataGrouped(gasData);
     }
-  };
-
-  const dailyData = () => {
-    const electricDay = [];
-
-    electricData.map((element) => {
-      const currentDate = new Date(
-        new Date(element.interval_start).setHours(0, 0, 0, 0)
-      );
-
-      // const newWeekDate = new Date(
-      //   new Date(currentDate.setDate(diff)).setHours(0, 0, 0, 0)
-      // );
-
-      const index = electricDay.findIndex(
-        (e) => e.interval_start.valueOf() === currentDate.valueOf()
-      );
-
-      if (index === -1) {
-        electricDay.push({
-          interval_start: currentDate,
-          consumption: element.consumption,
-        });
-      } else {
-        const newConsumption =
-          electricDay[index].consumption + element.consumption;
-        electricDay[index].consumption = newConsumption;
-      }
-    });
-
-    console.log(electricDay);
-
-    return electricDay;
-  };
-
-  const weeklyData = () => {
-    const electricWeek = [];
-
-    electricData.map((element) => {
-      const currentDate = new Date(element.interval_start);
-
-      let diff =
-        currentDate.getDate() -
-        currentDate.getDay() +
-        (currentDate.getDay() === 0 ? -6 : 1);
-
-      const newWeekDate = new Date(
-        new Date(currentDate.setDate(diff)).setHours(0, 0, 0, 0)
-      );
-
-      const index = electricWeek.findIndex(
-        (e) => e.interval_start.valueOf() === newWeekDate.valueOf()
-      );
-
-      if (index === -1) {
-        electricWeek.push({
-          interval_start: newWeekDate,
-          consumption: element.consumption,
-        });
-      } else {
-        const newConsumption =
-          electricWeek[index].consumption + element.consumption;
-        electricWeek[index].consumption = newConsumption;
-      }
-    });
-
-    console.log(electricWeek);
-
-    return electricWeek;
-  };
-
-  const monthlyData = () => {
-    const electricMonth = [];
-    const month = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-
-    electricData.map((element) => {
-      const currentDate = new Date(
-        new Date(element.interval_start).getFullYear(),
-        new Date(element.interval_start).getMonth(),
-        1
-      );
-
-      const index = electricMonth.findIndex(
-        (e) => e.interval_start.valueOf() === currentDate.valueOf()
-      );
-
-      if (index === -1) {
-        electricMonth.push({
-          interval_start: currentDate,
-          consumption: element.consumption,
-        });
-      } else {
-        const newConsumption =
-          electricMonth[index].consumption + element.consumption;
-        electricMonth[index].consumption = newConsumption;
-      }
-    });
-
-    console.log(electricMonth);
-
-    return electricMonth;
   };
 
   useEffect(() => {
     setElectricDataGrouped(electricData);
+    setGasDataGrouped(gasData);
   }, [electricData]);
 
   const data = {
     labels: electricDataGrouped.map((element) => {
-      //   console.log(element.interval_start.substring(0, 16));
       return element.interval_start;
     }),
     datasets: [
@@ -186,14 +80,14 @@ const Chart = () => {
         backgroundColor: "rgba(255, 99, 132, 0.5)",
         yAxisID: "y",
       },
-      // {
-      //   label: "Gas",
-      //   data: gasData.map((element) => {
-      //     return element.consumption;
-      //   }),
-      //   backgroundColor: "rgba(53, 162, 235, 0.5)",
-      //   yAxisID: "gas",
-      // },
+      {
+        label: "Gas",
+        data: gasDataGrouped.map((element) => {
+          return element.consumption;
+        }),
+        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        yAxisID: "y",
+      },
     ],
   };
 
