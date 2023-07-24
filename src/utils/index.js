@@ -1,4 +1,17 @@
-export const dailyData = (inputData) => {
+export const chooseDataGrouping = (grouping, data) => {
+  switch (grouping) {
+    case "hour":
+      return data;
+    case "day":
+      return dailyData(data);
+    case "week":
+      return weeklyData(data);
+    case "month":
+      return monthlyData(data);
+  }
+};
+
+const dailyData = (inputData) => {
   const electricDay = [];
 
   inputData.map((element) => {
@@ -25,7 +38,7 @@ export const dailyData = (inputData) => {
   return electricDay;
 };
 
-export const weeklyData = (inputData) => {
+const weeklyData = (inputData) => {
   const electricWeek = [];
 
   inputData.map((element) => {
@@ -59,7 +72,7 @@ export const weeklyData = (inputData) => {
   return electricWeek;
 };
 
-export const monthlyData = (inputData) => {
+const monthlyData = (inputData) => {
   const electricMonth = [];
 
   inputData.map((element) => {

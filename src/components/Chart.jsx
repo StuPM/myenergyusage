@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 import "chartjs-adapter-date-fns";
 
-import { dailyData, weeklyData, monthlyData } from "../utils";
+import { chooseDataGrouping } from "../utils";
 
 import {
   Chart as ChartJS,
@@ -17,6 +17,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+
 import {
   selectMyElectricData,
   selectMyGasData,
@@ -45,26 +46,30 @@ const Chart = () => {
     e.preventDefault();
     setTimeFrame(e.target.id);
 
-    console.log(e.target.id);
+    setElectricDataGrouped(chooseDataGrouping(e.target.id, electricData));
+    setGasDataGrouped(chooseDataGrouping(e.target.id, gasData));
 
-    if (e.target.id === "month") {
-      setElectricDataGrouped(monthlyData(electricData));
-      setGasDataGrouped(monthlyData(gasData));
-    } else if (e.target.id === "week") {
-      setElectricDataGrouped(weeklyData(electricData));
-      setGasDataGrouped(weeklyData(gasData));
-    } else if (e.target.id === "day") {
-      setElectricDataGrouped(dailyData(electricData));
-      setGasDataGrouped(dailyData(gasData));
-    } else if (e.target.id === "hour") {
-      setElectricDataGrouped(electricData);
-      setGasDataGrouped(gasData);
-    }
+    // if (e.target.id === "month") {
+    //   setElectricDataGrouped(monthlyData(electricData));
+    //   setGasDataGrouped(monthlyData(gasData));
+    // } else if (e.target.id === "week") {
+    //   setElectricDataGrouped(weeklyData(electricData));
+    //   setGasDataGrouped(weeklyData(gasData));
+    // } else if (e.target.id === "day") {
+    //   setElectricDataGrouped(dailyData(electricData));
+    //   setGasDataGrouped(dailyData(gasData));
+    // } else if (e.target.id === "hour") {
+    //   setElectricDataGrouped(electricData);
+    //   setGasDataGrouped(gasData);
+    // }
   };
 
   useEffect(() => {
-    setElectricDataGrouped(electricData);
-    setGasDataGrouped(gasData);
+    setElectricDataGrouped(chooseDataGrouping(timeFrame, electricData));
+    setGasDataGrouped(chooseDataGrouping(timeFrame, gasData));
+
+    // setElectricDataGrouped(monthlyData(electricData));
+    // setGasDataGrouped(monthlyData(gasData));
   }, [electricData, gasData]);
 
   const data = {
