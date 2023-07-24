@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 import { Bar } from "react-chartjs-2";
 import { useSelector } from "react-redux";
 
 import "chartjs-adapter-date-fns";
+
+import { dailyData, weeklyData, monthlyData } from "../utils";
 
 import {
   Chart as ChartJS,
@@ -33,15 +36,45 @@ const Chart = () => {
   const electricData = useSelector(selectMyElectricData);
   const gasData = useSelector(selectMyGasData);
 
+  const [electricDataGrouped, setElectricDataGrouped] = useState(electricData);
+  const [gasDataGrouped, setGasDataGrouped] = useState(gasData);
+
+  const [timeFrame, setTimeFrame] = useState("hour");
+
+  const clickTimeFrame = (e) => {
+    e.preventDefault();
+    setTimeFrame(e.target.id);
+
+    console.log(e.target.id);
+
+    if (e.target.id === "month") {
+      setElectricDataGrouped(monthlyData(electricData));
+      setGasDataGrouped(monthlyData(gasData));
+    } else if (e.target.id === "week") {
+      setElectricDataGrouped(weeklyData(electricData));
+      setGasDataGrouped(weeklyData(gasData));
+    } else if (e.target.id === "day") {
+      setElectricDataGrouped(dailyData(electricData));
+      setGasDataGrouped(dailyData(gasData));
+    } else if (e.target.id === "hour") {
+      setElectricDataGrouped(electricData);
+      setGasDataGrouped(gasData);
+    }
+  };
+
+  useEffect(() => {
+    setElectricDataGrouped(electricData);
+    setGasDataGrouped(gasData);
+  }, [electricData]);
+
   const data = {
-    labels: electricData.map((element) => {
-      //   console.log(element.interval_start.substring(0, 16));
-      return Date.parse(element.interval_start);
+    labels: electricDataGrouped.map((element) => {
+      return element.interval_start;
     }),
     datasets: [
       {
         label: "Electric",
-        data: electricData.map((element) => {
+        data: electricDataGrouped.map((element) => {
           return element.consumption;
         }),
         backgroundColor: "rgba(255, 99, 132, 0.5)",
@@ -49,11 +82,11 @@ const Chart = () => {
       },
       {
         label: "Gas",
-        data: gasData.map((element) => {
+        data: gasDataGrouped.map((element) => {
           return element.consumption;
         }),
         backgroundColor: "rgba(53, 162, 235, 0.5)",
-        yAxisID: "gas",
+        yAxisID: "y",
       },
     ],
   };
@@ -82,6 +115,15 @@ const Chart = () => {
       x: {
         position: "bottom",
         type: "time",
+
+        time: {
+          unit: timeFrame,
+          isoWeekday: true,
+          displayFormats: {
+            month: "MMMM yyyy",
+          },
+        },
+
         ticks: {
           major: {
             enabled: true,
@@ -113,25 +155,53 @@ const Chart = () => {
           },
         },
       },
-      gas: {
-        title: {
-          display: true,
-          text: "Usage m³",
-          font: {
-            weight: "bold",
-          },
-        },
-        grid: {
-          drawOnChartArea: false,
-        },
-      },
+      // gas: {
+      //   title: {
+      //     display: true,
+      //     text: "Usage m³",
+      //     font: {
+      //       weight: "bold",
+      //     },
+      //   },
+      //   grid: {
+      //     drawOnChartArea: false,
+      //   },
+      // },
     },
   };
 
   return (
-    <div className="h-full w-full">
-      <Bar data={data} options={options} />
-    </div>
+    <>
+      <div className="h-full w-full">
+        <Bar data={data} options={options} />
+      </div>
+      <form className="flex justify-between" onClick={clickTimeFrame}>
+        <button
+          id="month"
+          className="mr-2 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+        >
+          Monthly
+        </button>
+        <button
+          id="week"
+          className="mr-2 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+        >
+          Weekly
+        </button>
+        <button
+          id="day"
+          className="mr-2 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+        >
+          Daily
+        </button>
+        <button
+          id="hour"
+          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+        >
+          Hourly
+        </button>
+      </form>
+    </>
   );
 };
 
