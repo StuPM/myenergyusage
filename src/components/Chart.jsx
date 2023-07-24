@@ -65,7 +65,7 @@ const Chart = () => {
   useEffect(() => {
     setElectricDataGrouped(electricData);
     setGasDataGrouped(gasData);
-  }, [electricData]);
+  }, [electricData, gasData]);
 
   const data = {
     labels: electricDataGrouped.map((element) => {
