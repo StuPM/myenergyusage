@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Bar } from "react-chartjs-2";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import "chartjs-adapter-date-fns";
 
@@ -21,6 +21,8 @@ import {
 import {
   selectMyElectricData,
   selectMyGasData,
+  selectTimeFrame,
+  setTimeFrame,
 } from "../features/octopus/octopusSlice";
 
 ChartJS.register(
@@ -34,17 +36,19 @@ ChartJS.register(
 );
 
 const Chart = () => {
+  const dispatch = useDispatch();
+
   const electricData = useSelector(selectMyElectricData);
   const gasData = useSelector(selectMyGasData);
+  const timeFrame = useSelector(selectTimeFrame);
 
   const [electricDataGrouped, setElectricDataGrouped] = useState(electricData);
   const [gasDataGrouped, setGasDataGrouped] = useState(gasData);
 
-  const [timeFrame, setTimeFrame] = useState("hour");
-
   const clickTimeFrame = (e) => {
     e.preventDefault();
-    setTimeFrame(e.target.id);
+
+    dispatch(setTimeFrame(e.target.id));
 
     setElectricDataGrouped(chooseDataGrouping(e.target.id, electricData));
     setGasDataGrouped(chooseDataGrouping(e.target.id, gasData));
