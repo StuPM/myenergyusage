@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 import { Bar } from "react-chartjs-2";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import "chartjs-adapter-date-fns";
 
-import { dailyData, weeklyData, monthlyData } from "../utils";
+import { chooseDataGrouping } from "../utils";
 
 import {
   Chart as ChartJS,
@@ -17,9 +17,12 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+
 import {
   selectMyElectricData,
   selectMyGasData,
+  selectTimeFrame,
+  setTimeFrame,
 } from "../features/octopus/octopusSlice";
 
 ChartJS.register(
@@ -33,38 +36,27 @@ ChartJS.register(
 );
 
 const Chart = () => {
+  const dispatch = useDispatch();
+
   const electricData = useSelector(selectMyElectricData);
   const gasData = useSelector(selectMyGasData);
+  const timeFrame = useSelector(selectTimeFrame);
 
   const [electricDataGrouped, setElectricDataGrouped] = useState(electricData);
   const [gasDataGrouped, setGasDataGrouped] = useState(gasData);
 
-  const [timeFrame, setTimeFrame] = useState("hour");
-
   const clickTimeFrame = (e) => {
     e.preventDefault();
-    setTimeFrame(e.target.id);
 
-    console.log(e.target.id);
+    dispatch(setTimeFrame(e.target.id));
 
-    if (e.target.id === "month") {
-      setElectricDataGrouped(monthlyData(electricData));
-      setGasDataGrouped(monthlyData(gasData));
-    } else if (e.target.id === "week") {
-      setElectricDataGrouped(weeklyData(electricData));
-      setGasDataGrouped(weeklyData(gasData));
-    } else if (e.target.id === "day") {
-      setElectricDataGrouped(dailyData(electricData));
-      setGasDataGrouped(dailyData(gasData));
-    } else if (e.target.id === "hour") {
-      setElectricDataGrouped(electricData);
-      setGasDataGrouped(gasData);
-    }
+    setElectricDataGrouped(chooseDataGrouping(e.target.id, electricData));
+    setGasDataGrouped(chooseDataGrouping(e.target.id, gasData));
   };
 
   useEffect(() => {
-    setElectricDataGrouped(electricData);
-    setGasDataGrouped(gasData);
+    setElectricDataGrouped(chooseDataGrouping(timeFrame, electricData));
+    setGasDataGrouped(chooseDataGrouping(timeFrame, gasData));
   }, [electricData, gasData]);
 
   const data = {
@@ -155,18 +147,7 @@ const Chart = () => {
           },
         },
       },
-      // gas: {
-      //   title: {
-      //     display: true,
-      //     text: "Usage m³",
-      //     font: {
-      //       weight: "bold",
-      //     },
-      //   },
-      //   grid: {
-      //     drawOnChartArea: false,
-      //   },
-      // },
+      // text: "Usage m³"
     },
   };
 
@@ -175,28 +156,31 @@ const Chart = () => {
       <div className="h-full w-full">
         <Bar data={data} options={options} />
       </div>
-      <form className="flex justify-between" onClick={clickTimeFrame}>
+      <form
+        className="flex justify-center flex-wrap gap-4 w-4/5"
+        onClick={clickTimeFrame}
+      >
         <button
           id="month"
-          className="mr-2 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+          className="w-36 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
         >
           Monthly
         </button>
         <button
           id="week"
-          className="mr-2 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+          className="w-36 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
         >
           Weekly
         </button>
         <button
           id="day"
-          className="mr-2 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+          className="w-36 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
         >
           Daily
         </button>
         <button
           id="hour"
-          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+          className="w-36 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
         >
           Hourly
         </button>

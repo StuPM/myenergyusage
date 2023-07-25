@@ -4,9 +4,10 @@ export function callOctopusConsumptionAPI(
   URL,
   METERPOINT,
   SERIAL,
-  APIKEY,
+  APIKEY = process.env.REACT_APP_APIKEY,
   FROM,
-  TO
+  TO,
+  GROUP = "hour"
 ) {
   return new Promise((resolve) => {
     resolve(
@@ -19,8 +20,8 @@ export function callOctopusConsumptionAPI(
           params: {
             period_from: FROM,
             period_to: TO,
-            // page_size: 1000,
-            // group_by: "day",
+            // page_size: 1500,
+            group_by: GROUP,
           },
         }
       ),

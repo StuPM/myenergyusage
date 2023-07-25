@@ -1,7 +1,22 @@
-export const dailyData = (inputData) => {
+export const chooseDataGrouping = (grouping, data) => {
+  switch (grouping) {
+    case "hour":
+      return data;
+    case "day":
+      return dailyData(data);
+    case "week":
+      return weeklyData(data);
+    case "month":
+      return monthlyData(data);
+    default:
+      break;
+  }
+};
+
+const dailyData = (inputData) => {
   const electricDay = [];
 
-  inputData.map((element) => {
+  inputData.forEach((element) => {
     const currentDate = new Date(
       new Date(element.interval_start).setHours(0, 0, 0, 0)
     );
@@ -25,10 +40,10 @@ export const dailyData = (inputData) => {
   return electricDay;
 };
 
-export const weeklyData = (inputData) => {
+const weeklyData = (inputData) => {
   const electricWeek = [];
 
-  inputData.map((element) => {
+  inputData.forEach((element) => {
     const currentDate = new Date(element.interval_start);
 
     let diff =
@@ -59,10 +74,10 @@ export const weeklyData = (inputData) => {
   return electricWeek;
 };
 
-export const monthlyData = (inputData) => {
+const monthlyData = (inputData) => {
   const electricMonth = [];
 
-  inputData.map((element) => {
+  inputData.forEach((element) => {
     const currentDate = new Date(
       new Date(element.interval_start).getFullYear(),
       new Date(element.interval_start).getMonth(),
