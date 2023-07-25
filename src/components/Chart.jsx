@@ -52,28 +52,11 @@ const Chart = () => {
 
     setElectricDataGrouped(chooseDataGrouping(e.target.id, electricData));
     setGasDataGrouped(chooseDataGrouping(e.target.id, gasData));
-
-    // if (e.target.id === "month") {
-    //   setElectricDataGrouped(monthlyData(electricData));
-    //   setGasDataGrouped(monthlyData(gasData));
-    // } else if (e.target.id === "week") {
-    //   setElectricDataGrouped(weeklyData(electricData));
-    //   setGasDataGrouped(weeklyData(gasData));
-    // } else if (e.target.id === "day") {
-    //   setElectricDataGrouped(dailyData(electricData));
-    //   setGasDataGrouped(dailyData(gasData));
-    // } else if (e.target.id === "hour") {
-    //   setElectricDataGrouped(electricData);
-    //   setGasDataGrouped(gasData);
-    // }
   };
 
   useEffect(() => {
     setElectricDataGrouped(chooseDataGrouping(timeFrame, electricData));
     setGasDataGrouped(chooseDataGrouping(timeFrame, gasData));
-
-    // setElectricDataGrouped(monthlyData(electricData));
-    // setGasDataGrouped(monthlyData(gasData));
   }, [electricData, gasData]);
 
   const data = {
@@ -164,18 +147,7 @@ const Chart = () => {
           },
         },
       },
-      // gas: {
-      //   title: {
-      //     display: true,
-      //     text: "Usage m³",
-      //     font: {
-      //       weight: "bold",
-      //     },
-      //   },
-      //   grid: {
-      //     drawOnChartArea: false,
-      //   },
-      // },
+      // text: "Usage m³"
     },
   };
 
@@ -184,28 +156,31 @@ const Chart = () => {
       <div className="h-full w-full">
         <Bar data={data} options={options} />
       </div>
-      <form className="flex justify-between" onClick={clickTimeFrame}>
+      <form
+        className="flex justify-center flex-wrap gap-4 w-4/5"
+        onClick={clickTimeFrame}
+      >
         <button
           id="month"
-          className="mr-2 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+          className="w-36 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
         >
           Monthly
         </button>
         <button
           id="week"
-          className="mr-2 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+          className="w-36 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
         >
           Weekly
         </button>
         <button
           id="day"
-          className="mr-2 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+          className="w-36 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
         >
           Daily
         </button>
         <button
           id="hour"
-          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+          className="w-36 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
         >
           Hourly
         </button>
