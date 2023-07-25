@@ -1,19 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectChartType,
+  setChartType,
+} from "../features/octopus/octopusSlice";
 
 const ChartTypes = () => {
-  const [selectedGraphType, setSelectedGraphType] = useState("chartjs");
+  const dispatch = useDispatch();
+
+  const selectedChartType = useSelector(selectChartType);
 
   const selectedStyle =
-    "w-40 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none ring ";
+    "w-36 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none ring ";
 
   const notSelectedStyle =
-    "w-40 inline-block rounded border border-indigo-600 bg-transparent px-12 py-3 text-sm font-medium text-indigo-600 hover:bg-indigo-600 hover:text-white";
+    "w-36 inline-block rounded border border-indigo-600 bg-transparent px-12 py-3 text-sm font-medium text-indigo-600 hover:bg-indigo-600 hover:text-white";
 
   const changeChartType = (e) => {
     e.preventDefault();
-
-    console.log(e.target.id);
-    setSelectedGraphType(e.target.id);
+    dispatch(setChartType(e.target.id));
   };
 
   return (
@@ -21,7 +26,7 @@ const ChartTypes = () => {
       <button
         id="d3"
         className={`${
-          selectedGraphType === "d3" ? selectedStyle : notSelectedStyle
+          selectedChartType === "d3" ? selectedStyle : notSelectedStyle
         } mr-2`}
       >
         D3
@@ -29,10 +34,10 @@ const ChartTypes = () => {
       <button
         id="chartjs"
         className={`${
-          selectedGraphType === "chartjs" ? selectedStyle : notSelectedStyle
+          selectedChartType === "chartjs" ? selectedStyle : notSelectedStyle
         } ml-2`}
       >
-        Chart JS
+        ChartJS
       </button>
     </form>
   );

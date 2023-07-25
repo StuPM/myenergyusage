@@ -7,7 +7,7 @@ import {
   selectTimeFrame,
   setNewDateFrom,
   setNewDateTo,
-} from "../features/octopus/octopusSlice";
+} from "../../features/octopus/octopusSlice";
 
 const DateSelection = ({ defaultFrom, defaultTo }) => {
   const dispatch = useDispatch();

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import "chartjs-adapter-date-fns";
 
-import { chooseDataGrouping } from "../utils";
+import { chooseDataGrouping } from "../../utils";
 
 import {
   Chart as ChartJS,
@@ -23,7 +23,7 @@ import {
   selectMyGasData,
   selectTimeFrame,
   setTimeFrame,
-} from "../features/octopus/octopusSlice";
+} from "../../features/octopus/octopusSlice";
 
 ChartJS.register(
   CategoryScale,
@@ -45,6 +45,17 @@ const Chart = () => {
   const [electricDataGrouped, setElectricDataGrouped] = useState(electricData);
   const [gasDataGrouped, setGasDataGrouped] = useState(gasData);
 
+  const selectedStyle =
+    "w-36 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none ring ";
+
+  const notSelectedStyle =
+    "w-36 inline-block rounded border border-indigo-600 bg-transparent px-12 py-3 text-sm font-medium text-indigo-600 hover:bg-indigo-600 hover:text-white";
+
+  useEffect(() => {
+    setElectricDataGrouped(chooseDataGrouping(timeFrame, electricData));
+    setGasDataGrouped(chooseDataGrouping(timeFrame, gasData));
+  }, [electricData, gasData]);
+
   const clickTimeFrame = (e) => {
     e.preventDefault();
 
@@ -53,11 +64,6 @@ const Chart = () => {
     setElectricDataGrouped(chooseDataGrouping(e.target.id, electricData));
     setGasDataGrouped(chooseDataGrouping(e.target.id, gasData));
   };
-
-  useEffect(() => {
-    setElectricDataGrouped(chooseDataGrouping(timeFrame, electricData));
-    setGasDataGrouped(chooseDataGrouping(timeFrame, gasData));
-  }, [electricData, gasData]);
 
   const data = {
     labels: electricDataGrouped.map((element) => {
@@ -162,25 +168,33 @@ const Chart = () => {
       >
         <button
           id="month"
-          className="w-36 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+          className={`${
+            timeFrame === "month" ? selectedStyle : notSelectedStyle
+          }`}
         >
           Monthly
         </button>
         <button
           id="week"
-          className="w-36 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+          className={`${
+            timeFrame === "week" ? selectedStyle : notSelectedStyle
+          }`}
         >
           Weekly
         </button>
         <button
           id="day"
-          className="w-36 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+          className={`${
+            timeFrame === "day" ? selectedStyle : notSelectedStyle
+          }`}
         >
           Daily
         </button>
         <button
           id="hour"
-          className="w-36 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+          className={`${
+            timeFrame === "hour" ? selectedStyle : notSelectedStyle
+          }`}
         >
           Hourly
         </button>

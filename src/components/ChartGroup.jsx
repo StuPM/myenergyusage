@@ -1,8 +1,8 @@
 import React from "react";
-import Chart from "./Chart";
+import Chart from "./charts/Chart";
 import "../styles/Electric.css";
 
-import DateSelection from "./DateSelection";
+import DateSelection from "./charts/DateSelection";
 
 import { selectFromDate, selectToDate } from "../features/octopus/octopusSlice";
 import { useSelector } from "react-redux";
