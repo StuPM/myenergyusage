@@ -8,6 +8,8 @@ export const chooseDataGrouping = (grouping, data) => {
       return weeklyData(data);
     case "month":
       return monthlyData(data);
+    default:
+      break;
   }
 };
 

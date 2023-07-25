@@ -5,6 +5,7 @@ import {
   callMyElectricMeter,
   callMyGasMeter,
   selectFromDate,
+  selectTimeFrame,
   selectToDate,
 } from "./features/octopus/octopusSlice";
 
@@ -16,7 +17,15 @@ function App() {
   const defaultFrom = useSelector(selectFromDate);
   const defaultTo = useSelector(selectToDate);
 
+  const timeFrame = useSelector(selectTimeFrame);
+
   useEffect(() => {
+    // Add in group here
+    // any time it changes, call api again?
+    // add it to the parameters at least
+
+    console.log(timeFrame);
+
     dispatch(
       callMyElectricMeter({
         URL: "electricity-meter-points",
@@ -25,6 +34,7 @@ function App() {
         APIKEY: process.env.REACT_APP_APIKEY,
         FROM: defaultFrom,
         TO: defaultTo,
+        GROUP: timeFrame,
       })
     );
     dispatch(
@@ -35,9 +45,10 @@ function App() {
         APIKEY: process.env.REACT_APP_APIKEY,
         FROM: defaultFrom,
         TO: defaultTo,
+        GROUP: timeFrame,
       })
     );
-  }, [defaultFrom, defaultTo]);
+  }, [defaultFrom, defaultTo, timeFrame]);
 
   return (
     <>
