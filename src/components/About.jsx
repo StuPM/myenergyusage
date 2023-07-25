@@ -2,7 +2,8 @@ import React from "react";
 import me from "../assets/me.jpg";
 import misty from "../assets/misty.jpg";
 import molly from "../assets/molly.jpg";
-import ChartTypes from "./ChartTypes";
+
+import About_ChartTypes from "./About_ChartTypes";
 
 const About = () => {
   return (
@@ -48,7 +49,7 @@ const About = () => {
               Specifiy the date range and how to group the data via the button
               below the chart.
             </p>
-            <ChartTypes />
+            <About_ChartTypes />
           </div>
         </div>
       </section>

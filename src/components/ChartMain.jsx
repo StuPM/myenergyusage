@@ -1,5 +1,5 @@
 import React from "react";
-import Chart from "./charts/Chart";
+import Chart_JS from "./charts/Chart_JS";
 import "../styles/Electric.css";
 
 import DateSelection from "./charts/DateSelection";
@@ -18,7 +18,7 @@ const ChartGroup = () => {
           💡 Electricity and Gas 🔥
         </h2>
         <DateSelection defaultFrom={defaultFrom} defaultTo={defaultTo} />
-        <Chart />
+        <Chart_JS />
       </section>
     </>
   );

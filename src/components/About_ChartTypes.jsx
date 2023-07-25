@@ -5,10 +5,12 @@ import {
   setChartType,
 } from "../features/octopus/octopusSlice";
 
-const ChartTypes = () => {
+const About_ChartTypes = () => {
   const dispatch = useDispatch();
 
   const selectedChartType = useSelector(selectChartType);
+
+  //TODO: Put styles into const.
 
   const selectedStyle =
     "w-36 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none ring ";
@@ -43,4 +45,4 @@ const ChartTypes = () => {
   );
 };
 
-export default ChartTypes;
+export default About_ChartTypes;
