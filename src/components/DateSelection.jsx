@@ -1,19 +1,29 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { setNewDateFrom, setNewDateTo } from "../features/octopus/octopusSlice";
+import {
+  callMyElectricMeter,
+  callMyGasMeter,
+  selectTimeFrame,
+  setNewDateFrom,
+  setNewDateTo,
+} from "../features/octopus/octopusSlice";
 
 const DateSelection = ({ defaultFrom, defaultTo }) => {
   const dispatch = useDispatch();
+
+  const timeFrame = useSelector(selectTimeFrame);
 
   const [newDefaultFrom, setNewDefaultFrom] = useState(defaultFrom);
   const [newDefaultTo, setNewDefaultTo] = useState(defaultTo);
 
   const updateDate = (e) => {
     if (e.target.name === "dateFrom") {
-      setNewDefaultFrom(e.target.value);
+      dispatch(setNewDateFrom(e.target.value));
+      // setNewDefaultFrom(e.target.value);
     } else if (e.target.name === "dateTo") {
-      setNewDefaultTo(e.target.value);
+      dispatch(setNewDateTo(e.target.value));
+      // setNewDefaultTo(e.target.value);
     }
   };
 
@@ -22,6 +32,23 @@ const DateSelection = ({ defaultFrom, defaultTo }) => {
     dispatch(setNewDateFrom(newDefaultFrom));
     dispatch(setNewDateTo(newDefaultTo));
   };
+
+  useEffect(() => {
+    dispatch(
+      callMyElectricMeter({
+        FROM: defaultFrom,
+        TO: defaultTo,
+        GROUP: timeFrame,
+      })
+    );
+    dispatch(
+      callMyGasMeter({
+        FROM: defaultFrom,
+        TO: defaultTo,
+        GROUP: timeFrame,
+      })
+    );
+  }, [defaultFrom, defaultTo, timeFrame]);
 
   return (
     <form

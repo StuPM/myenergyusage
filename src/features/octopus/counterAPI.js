@@ -4,7 +4,7 @@ export function callOctopusConsumptionAPI(
   URL,
   METERPOINT,
   SERIAL,
-  APIKEY,
+  APIKEY = process.env.REACT_APP_APIKEY,
   FROM,
   TO,
   GROUP = "hour"

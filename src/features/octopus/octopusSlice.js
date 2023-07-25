@@ -29,9 +29,9 @@ export const callMyElectricMeter = createAsyncThunk(
   "octopus/getElectricConsumption",
   async ({ URL, METERPOINT, SERIAL, APIKEY, FROM, TO, GROUP }) => {
     const result = await callOctopusConsumptionAPI(
-      URL,
-      METERPOINT,
-      SERIAL,
+      (URL = "electricity-meter-points"),
+      (METERPOINT = 1012766925331),
+      (SERIAL = "17P0337651"),
       APIKEY,
       FROM,
       TO,
@@ -45,9 +45,9 @@ export const callMyGasMeter = createAsyncThunk(
   "octopus/getGasConsumption",
   async ({ URL, METERPOINT, SERIAL, APIKEY, FROM, TO, GROUP }) => {
     const result = await callOctopusConsumptionAPI(
-      URL,
-      METERPOINT,
-      SERIAL,
+      (URL = "gas-meter-points"),
+      (METERPOINT = 2996767710),
+      (SERIAL = "G4P03698001700"),
       APIKEY,
       FROM,
       TO,
