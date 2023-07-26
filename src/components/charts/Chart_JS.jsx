@@ -159,7 +159,7 @@ const Chart_JS = () => {
   //TODO buttons to own component
   return (
     <>
-      <div className="w-full  flex-grow">
+      <div className="w-full sm:w-10/12  flex-grow">
         <Bar data={data} options={options} />
       </div>
       <form
