@@ -71,7 +71,7 @@ const Chart_JS = () => {
     }),
     datasets: [
       {
-        label: "Electric",
+        label: "Electricity (KwH)",
         data: electricDataGrouped.map((element) => {
           return element.consumption;
         }),
@@ -79,7 +79,7 @@ const Chart_JS = () => {
         yAxisID: "y",
       },
       {
-        label: "Gas",
+        label: "Gas m³",
         data: gasDataGrouped.map((element) => {
           return element.consumption;
         }),
@@ -147,19 +147,19 @@ const Chart_JS = () => {
 
         title: {
           display: true,
-          text: "Usage KwH",
+          text: "Usage",
           font: {
             weight: "bold",
           },
         },
       },
-      // text: "Usage m³"
     },
   };
 
+  //TODO buttons to own component
   return (
     <>
-      <div className="h-full w-full">
+      <div className="w-full  flex-grow">
         <Bar data={data} options={options} />
       </div>
       <form

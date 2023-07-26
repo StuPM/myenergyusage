@@ -3,7 +3,7 @@ import React from "react";
 const Footer = () => {
   return (
     <footer className="bg-white">
-      <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-12 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-screen-xl py-4 pb-6 sm:px-6 lg:px-8">
         <div className="mt-16 border-t border-gray-100 pt-6 sm:flex sm:items-center sm:justify-between">
           <p className="text-center text-sm text-gray-500 sm:text-left">
             Stuart Paul McGee &copy; 2022. All rights reserved.
@@ -20,7 +20,7 @@ const Footer = () => {
                 <span className="sr-only">LinkedIn</span>
                 <svg
                   className="h-6 w-6"
-                  fill="currentColor"
+                  fill="#0077B5"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
                 >
