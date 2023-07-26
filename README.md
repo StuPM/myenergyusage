@@ -1,6 +1,6 @@
 # My Energy Usage
 
-By utilising ChartJS and the Octopus Energy API, I have created a website that will show my electricity and gas usage over a given timeframe.
+By utilising ChartJS and the Octopus Energy API, I have created a website that shows my electricity and gas usage over a given timeframe.
 
 ## Live link
 
@@ -23,7 +23,7 @@ You can then:
   - For storing data in the local state used to control the website.
   - With CreateAsynThunk functions to manage API calls.
 - [AXIOS](https://axios-http.com/)
-  - Used to connect to both the Octopus Energy API e.
+  - Used to connect to both the Octopus Energy API.
 - [React ChartJS](https://react-chartjs-2.js.org/)
   - To create the bar chart and display the data.
 - [TailwindCSS](https://tailwindui.com/)
