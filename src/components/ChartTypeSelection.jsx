@@ -5,7 +5,7 @@ import {
   setChartType,
 } from "../features/octopus/octopusSlice";
 
-const About_ChartTypes = () => {
+const ChartTypeSelection = () => {
   const dispatch = useDispatch();
 
   const selectedChartType = useSelector(selectChartType);
@@ -45,4 +45,4 @@ const About_ChartTypes = () => {
   );
 };
 
-export default About_ChartTypes;
+export default ChartTypeSelection;

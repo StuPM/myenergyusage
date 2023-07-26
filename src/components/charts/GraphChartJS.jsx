@@ -35,7 +35,7 @@ ChartJS.register(
   Legend
 );
 
-const Chart_JS = () => {
+const GraphChartJS = () => {
   const dispatch = useDispatch();
 
   const electricData = useSelector(selectMyElectricData);
@@ -203,4 +203,4 @@ const Chart_JS = () => {
   );
 };
 
-export default Chart_JS;
+export default GraphChartJS;

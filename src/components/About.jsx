@@ -3,7 +3,7 @@ import me from "../assets/me.jpg";
 import misty from "../assets/misty.jpg";
 import molly from "../assets/molly.jpg";
 
-import About_ChartTypes from "./About_ChartTypes";
+import ChartTypeSelection from "./ChartTypeSelection";
 
 /**
  * Via the Octopus Energy API, my family's electricity and gas usage has been visualized in the graph below.
@@ -47,10 +47,10 @@ const About = () => {
             Specifiy the date range and how to group the data via the button
             below the chart.
           </p>
-          {/* <p className="mt-4 sm:text-xl/relaxed">
+          <p className="mt-4 sm:text-xl/relaxed">
             Switch between D3 and Chart JS Graph technology.
           </p>
-          <About_ChartTypes /> */}
+          <ChartTypeSelection />
         </div>
       </div>
     </header>

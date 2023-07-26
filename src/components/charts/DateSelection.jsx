@@ -9,6 +9,8 @@ import {
   setNewDateTo,
 } from "../../features/octopus/octopusSlice";
 
+//TODO validation of date
+
 const DateSelection = ({ defaultFrom, defaultTo }) => {
   const dispatch = useDispatch();
 
