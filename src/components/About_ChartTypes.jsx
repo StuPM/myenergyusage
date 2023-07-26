@@ -24,7 +24,7 @@ const About_ChartTypes = () => {
   };
 
   return (
-    <form className="flex justify-center" onClick={changeChartType}>
+    <form className="flex justify-center mt-4" onClick={changeChartType}>
       <button
         id="d3"
         className={`${
